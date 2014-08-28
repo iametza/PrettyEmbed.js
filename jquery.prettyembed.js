@@ -37,6 +37,16 @@
 		// Test for mobile devices
 		var mobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))? true : false;
 
+		// Get the URL protocol
+		var protocol = document.location.protocol;
+
+		var protocolPrefix = "";
+
+		// Used to fix problems with protocol relative URLs on hybrid apps (cordova...)
+		if (protocol === "file:") {
+			protocolPrefix = "https:";
+		}
+		
 		// Inject styles if not already present
 		if ( $('#pretty-embed-style').length === 0 ) {
 			var styles = $('<style />', {
@@ -193,7 +203,7 @@
 				}
 
 				// Write the <img/> element
-				$(this).html('<img src="//img.youtube.com/vi/' + thisVideoID + '/' + previewSizePrefix + '.jpg" width="100%" alt="YouTube Video Preview" />');
+				$(this).html('<img src="' + protocolPrefix + '//img.youtube.com/vi/' + thisVideoID + '/' + previewSizePrefix + '.jpg" width="100%" alt="YouTube Video Preview" />');
 			}
 
 			if ( $(this).is('a') ) {
@@ -273,7 +283,7 @@
 			if ( (obj.attr('data-pe-allow-fullscreen') === 'false') || (options.allowFullScreen === false) ) { fullScreenFlag = ''; } else { fullScreenFlag = 'allowfullscreen '; }
 
 			// Write the YouTube video iFrame into the element at the exact dimensions it is now
-			obj.html('<iframe width="' + wrapperWidth + '" height="' + wrapperHeight + '" ' + fullScreenFlag + 'style="border:none;" src="//www.youtube.com/embed/' + thisVideoID + '?autoplay=1' + playerOptions + '"></iframe>')
+			obj.html('<iframe width="' + wrapperWidth + '" height="' + wrapperHeight + '" ' + fullScreenFlag + 'style="border:none;" src="' + protocolPrefix + '//www.youtube.com/embed/' + thisVideoID + '?autoplay=1' + playerOptions + '"></iframe>')
 				// Remove the YouTube 'play' button using a CSS class
 				.addClass('play');
 
